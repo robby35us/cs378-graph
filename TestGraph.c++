@@ -136,11 +136,11 @@ struct TestGraph : CppUnit::TestFixture {
         CPPUNIT_ASSERT(b != e);
         if (b != e) {
             vertex_descriptor vd = *b;
-            CPPUNIT_ASSERT(vd == vdB);}
+            CPPUNIT_ASSERT(vd == 1);}
         ++b;
         if (b != e) {
             vertex_descriptor vd = *b;
-            CPPUNIT_ASSERT(vd == vdC);}}
+            CPPUNIT_ASSERT(vd == 2);}}
 
     // ---------
     // test_edge
@@ -272,7 +272,7 @@ int main () {
 
     CppUnit::TextTestRunner tr;
     tr.addTest(TestGraph< adjacency_list<setS, vecS, directedS> >::suite());
-//  tr.addTest(TestGraph<Graph>::suite()); // uncomment
+    tr.addTest(TestGraph<Graph>::suite()); // uncomment
     tr.run();
 
     cout << "Done." << endl;

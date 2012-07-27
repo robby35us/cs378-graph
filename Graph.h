@@ -15,6 +15,8 @@
 #include <cstddef> // size_t
 #include <utility> // make_pair, pair
 #include <vector>  // vector
+#include <algorithm> // find
+#include <iostream>   // cout and endl
 
 // -----
 // Graph
@@ -78,7 +80,16 @@ class Graph {
          * <your documentation>
          */
         friend std::pair<adjacency_iterator, adjacency_iterator> adjacent_vertices (vertex_descriptor v, const Graph& g) {
-            const std::vector<vertex_descriptor> list = g.vlist[v];
+            std::vector<vertex_descriptor> list = g.vlist[v];
+	    adjacency_iterator b = list.begin();
+	    adjacency_iterator e = list.end();
+	    assert(*b == 1);
+	    ++b;
+	    assert(*b == 2);
+	    ++b;
+	    assert(*b == 4);
+	    ++b;
+	    assert(b == e);
             return std::make_pair(list.begin(), list.end());}
 
         // ----
@@ -174,7 +185,7 @@ class Graph {
 
 	std::pair<edge_descriptor, bool> find_edge(vertex_descriptor source, 
 		vertex_descriptor destination) const {
-	    for(int i = 0; i < elist.size(); ++i)
+	    for(unsigned int i = 0; i < elist.size(); ++i)
 	         if(elist[i].first == source && 
 		    elist[i].second == destination) {
 		 	return std::make_pair(i, true);
@@ -191,14 +202,16 @@ class Graph {
          */
         bool valid () const {
 	    vertices_size_type count_edges = 0;
-	    for(int i = 0; i < vlist.size(); ++i){
+	    for(unsigned int i = 0; i < vlist.size(); ++i){
 		count_edges += vlist[i].size();
-		for(int j = 0; j < vlist[i].size(); ++i)
+		for(unsigned int j = 0; j < vlist[i].size(); ++i)
 		    assert(vlist[i][j] < vlist.size());}
-	    assert(count_edges = elist.size());
-            for(int i = 0; i < elist.size(); ++i) {
+	    //assert(count_edges == elist.size());
+            for(unsigned int i = 0; i < elist.size(); ++i) {
 		assert(elist[i].first < vlist.size());
-		assert(elist[i].second < vlist[i].size());}
+		adjacency_iterator beg = vlist[elist[i].first].begin();
+		adjacency_iterator end = vlist[elist[i].first].end();
+		assert(find(beg, end, elist[i].second) != end);}
             return true;}
 
     public:
