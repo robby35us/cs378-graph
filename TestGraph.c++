@@ -120,10 +120,31 @@ struct TestGraph : CppUnit::TestFixture {
     // test_add_edge
     // -------------
 
-    void test_add_edge () {
+    void test_add_edge_1 () {
         std::pair<edge_descriptor, bool> p = add_edge(vdA, vdB, g);
         CPPUNIT_ASSERT(p.first  == edAB);
         CPPUNIT_ASSERT(p.second == false);}
+
+    void test_add_edge_2() {
+ 	CPPUNIT_ASSERT(num_edges(g) == 11);
+        std::pair<edge_descriptor, bool> p1 = add_edge(vdA, vdD, g);
+      	std::pair<edge_iterator, edge_iterator> its = edges(g);
+	CPPUNIT_ASSERT(num_edges(g) == 12);
+	CPPUNIT_ASSERT(find(its.first, its.second, p1.first) != its.second);
+        CPPUNIT_ASSERT(p1.second == true);}
+
+    void test_add_edge_3 () {
+	CPPUNIT_ASSERT(num_edges(g) == 11);
+        std::pair<edge_descriptor, bool> p1 = add_edge(vdA, vdD, g);
+      	std::pair<edge_iterator, edge_iterator> its = edges(g);
+	CPPUNIT_ASSERT(num_edges(g) == 12);
+	CPPUNIT_ASSERT(find(its.first, its.second, p1.first) != its.second);
+        CPPUNIT_ASSERT(p1.second == true);
+	CPPUNIT_ASSERT(num_edges(g) == 12);
+        std::pair<edge_descriptor, bool> p2 = add_edge(vdA, vdD, g);
+	CPPUNIT_ASSERT(p2.first == p1.first);
+        CPPUNIT_ASSERT(p2.second == false);
+	CPPUNIT_ASSERT(num_edges(g) == 12);}
 
     // ----------------------
     // test_adjacent_vertices
@@ -246,7 +267,9 @@ struct TestGraph : CppUnit::TestFixture {
     // -----
 
     CPPUNIT_TEST_SUITE(TestGraph);
-    CPPUNIT_TEST(test_add_edge);
+    CPPUNIT_TEST(test_add_edge_1);
+    CPPUNIT_TEST(test_add_edge_2);
+    CPPUNIT_TEST(test_add_edge_3);
     CPPUNIT_TEST(test_adjacent_vertices);
     CPPUNIT_TEST(test_edge);
     CPPUNIT_TEST(test_edges);
@@ -272,7 +295,7 @@ int main () {
 
     CppUnit::TextTestRunner tr;
     tr.addTest(TestGraph< adjacency_list<setS, vecS, directedS> >::suite());
-    tr.addTest(TestGraph<Graph>::suite()); // uncomment
+    tr.addTest(TestGraph<Graph>::suite());
     tr.run();
 
     cout << "Done." << endl;
