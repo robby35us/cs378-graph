@@ -80,18 +80,9 @@ class Graph {
          * <your documentation>
          */
         friend std::pair<adjacency_iterator, adjacency_iterator> adjacent_vertices (vertex_descriptor v, const Graph& g) {
-	    std::cout << "In adjacent_vertices function" << std::endl;
-            std::vector<vertex_descriptor> list = g.vlist[v];
-	    adjacency_iterator b = list.begin();
-	    adjacency_iterator e = list.end();
-	    assert(*b == 1);
-	    ++b;
-	    assert(*b == 2);
-	    ++b;
-	    assert(*b == 4);
-	    ++b;
-	    assert(b == e);
-            return std::make_pair(list.begin(), list.end());}
+	    adjacency_iterator b = g.vlist[v].begin();
+	    adjacency_iterator e = g.vlist[v].end();
+            return std::make_pair(b, e);}
 
         // ----
         // edge
@@ -204,14 +195,33 @@ class Graph {
 	    vertices_size_type count_edges = 0;
 	    for(unsigned int i = 0; i < vlist.size(); ++i){
 		count_edges += vlist[i].size();
-		for(unsigned int j = 0; j < vlist[i].size(); ++j)
-		    assert(vlist[i][j] < vlist.size());}
+		for(unsigned int j = 0; j < vlist[i].size(); ++j) {
+		    assert(vlist[i][j] >= 0);		
+		    assert(vlist[i][j] < vlist.size());}}
 	    assert(count_edges == elist.size());
             for(unsigned int i = 0; i < elist.size(); ++i) {
 		assert(elist[i].first < vlist.size());
+		assert(elist[i].second < vlist.size());
 		adjacency_iterator beg = vlist[elist[i].first].begin();
 		adjacency_iterator end = vlist[elist[i].first].end();
 		assert(find(beg, end, elist[i].second) != end);}
+/*
+	    std::cout << "valid method" << std::endl;
+	    std::cout << "g contains....";
+	    std::cout << " " << vlist.size() << " vertices and ";
+	    std::cout << elist.size() << " edges." << std::endl;
+
+	    int edge_num = 0;
+	    for(unsigned int i = 0; i < vlist.size(); ++i) {
+		std::cout << "Vertex " << i << " has the following edges...." << std::endl;
+		for(unsigned int j = 0; j < vlist[i].size(); ++j) {
+		    std::cout << "edge " << edge_num << " leads to vertex ";
+		    std::cout << vlist[i][j] << std::endl;
+		    std::cout << "(actual edge from " << elist[edge_num].first;
+		    std::cout << " to " << elist[edge_num++].second << ")" << std::endl << std::endl; }}
+
+*/
+
             return true;}
 
     public:

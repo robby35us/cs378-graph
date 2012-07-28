@@ -156,8 +156,13 @@ struct TestGraph : CppUnit::TestFixture {
         adjacency_iterator e = p.second;
 	CPPUNIT_ASSERT(std::distance(b, e) == 3);
         CPPUNIT_ASSERT(b != e);
-        CPPUNIT_ASSERT(*b++ == vdB);
-        CPPUNIT_ASSERT(*b == vdC);}
+        CPPUNIT_ASSERT(*b == vdB);
+	++b;
+        CPPUNIT_ASSERT(*b == vdC);
+	++b;
+	CPPUNIT_ASSERT(*b == vdE);
+	++b;
+	CPPUNIT_ASSERT(b == e);}
 
     void test_adjacent_vertices_2 () {
         std::pair<adjacency_iterator, adjacency_iterator> p = adjacent_vertices(vdH, g);
@@ -361,8 +366,8 @@ struct TestGraph : CppUnit::TestFixture {
     CPPUNIT_TEST(test_add_edge_2);
     CPPUNIT_TEST(test_add_edge_3);
     CPPUNIT_TEST(test_adjacent_vertices_1);
-//    CPPUNIT_TEST(test_adjacent_vertices_2);
-//    CPPUNIT_TEST(test_adjacent_vertices_3);
+    CPPUNIT_TEST(test_adjacent_vertices_2);
+    CPPUNIT_TEST(test_adjacent_vertices_3);
     CPPUNIT_TEST(test_edge_1);
     CPPUNIT_TEST(test_edge_2);
     CPPUNIT_TEST(test_edge_3);
