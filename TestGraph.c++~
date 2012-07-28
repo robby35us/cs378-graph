@@ -150,33 +150,18 @@ struct TestGraph : CppUnit::TestFixture {
     // test_adjacent_vertices // Need to write more tests.
     // ----------------------
 
-    void test_adjacent_vertices_1 () {
+    void test_adjacent_vertices () {
         std::pair<adjacency_iterator, adjacency_iterator> p = adjacent_vertices(vdA, g);
         adjacency_iterator b = p.first;
         adjacency_iterator e = p.second;
-	CPPUNIT_ASSERT(std::distance(b, e) == 3);
         CPPUNIT_ASSERT(b != e);
-        CPPUNIT_ASSERT(*b++ == vdB);
-        CPPUNIT_ASSERT(*b == vdC);}
-
-    void test_adjacent_vertices_2 () {
-        std::pair<adjacency_iterator, adjacency_iterator> p = adjacent_vertices(vdH, g);
-        adjacency_iterator b = p.first;
-        adjacency_iterator e = p.second;
-        CPPUNIT_ASSERT(b == e);
-	CPPUNIT_ASSERT(std::distance(b, e) == 0);}
-
-
-    void test_adjacent_vertices_3 () {
-        std::pair<adjacency_iterator, adjacency_iterator> p = adjacent_vertices(vdC, g);
-        adjacency_iterator b = p.first;
-        adjacency_iterator e = p.second;
-	CPPUNIT_ASSERT(std::distance(b, e) == 1);
-        CPPUNIT_ASSERT(b != e);
-       	CPPUNIT_ASSERT(*b == vdD);
+        if (b != e) {
+            vertex_descriptor vd = *b;
+            CPPUNIT_ASSERT(vd == 1);}
         ++b;
-        CPPUNIT_ASSERT(b == e);}
-
+        if (b != e) {
+            vertex_descriptor vd = *b;
+            CPPUNIT_ASSERT(vd == 2);}}
 
     // ---------
     // test_edge
@@ -310,7 +295,7 @@ struct TestGraph : CppUnit::TestFixture {
     // test_vertices
     // -------------
 
-    void test_vertices_1 () {
+    void test_vertices () {
         std::pair<vertex_iterator, vertex_iterator> p = vertices(g);
         vertex_iterator                             b = p.first;
         vertex_iterator                             e = p.second;
@@ -322,19 +307,6 @@ struct TestGraph : CppUnit::TestFixture {
         if (b != e) {
             vertex_descriptor vd = *b;
             CPPUNIT_ASSERT(vd == vdB);}}
-
-    void test_vertices_2 () {
-	graph_type empty;
-        std::pair<vertex_iterator, vertex_iterator> p = vertices(empty);
-        vertex_iterator                             b = p.first;
-        vertex_iterator                             e = p.second;
-        CPPUNIT_ASSERT(b == e);}
-
-    void test_vertices_3 () {
-        std::pair<vertex_iterator, vertex_iterator> p = vertices(g);
-        vertex_iterator                             b = p.first;
-        vertex_iterator                             e = p.second;
-        CPPUNIT_ASSERT(std::distance(b, e) == 8);}
 
     // --------------
     // test_has_cycle
@@ -360,9 +332,7 @@ struct TestGraph : CppUnit::TestFixture {
     CPPUNIT_TEST(test_add_edge_1);
     CPPUNIT_TEST(test_add_edge_2);
     CPPUNIT_TEST(test_add_edge_3);
-    CPPUNIT_TEST(test_adjacent_vertices_1);
-//    CPPUNIT_TEST(test_adjacent_vertices_2);
-//    CPPUNIT_TEST(test_adjacent_vertices_3);
+    CPPUNIT_TEST(test_adjacent_vertices);
     CPPUNIT_TEST(test_edge_1);
     CPPUNIT_TEST(test_edge_2);
     CPPUNIT_TEST(test_edge_3);
@@ -384,9 +354,7 @@ struct TestGraph : CppUnit::TestFixture {
     CPPUNIT_TEST(test_vertex_1);
     CPPUNIT_TEST(test_vertex_2);
     CPPUNIT_TEST(test_vertex_3);
-    CPPUNIT_TEST(test_vertices_1);
-    CPPUNIT_TEST(test_vertices_2);
-    CPPUNIT_TEST(test_vertices_3);
+    CPPUNIT_TEST(test_vertices);
     CPPUNIT_TEST_SUITE_END();};
 
 

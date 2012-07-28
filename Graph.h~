@@ -80,7 +80,6 @@ class Graph {
          * <your documentation>
          */
         friend std::pair<adjacency_iterator, adjacency_iterator> adjacent_vertices (vertex_descriptor v, const Graph& g) {
-	    std::cout << "In adjacent_vertices function" << std::endl;
             std::vector<vertex_descriptor> list = g.vlist[v];
 	    adjacency_iterator b = list.begin();
 	    adjacency_iterator e = list.end();
@@ -91,7 +90,7 @@ class Graph {
 	    assert(*b == 4);
 	    ++b;
 	    assert(b == e);
-            return std::make_pair(list.begin(), list.end());}
+            return std::make_pair((adjacency_iterator)list.begin(), (adjacency_iterator)list.end());}
 
         // ----
         // edge
@@ -188,8 +187,9 @@ class Graph {
 		vertex_descriptor destination) const {
 	    for(unsigned int i = 0; i < elist.size(); ++i)
 	         if(elist[i].first == source && 
-		    elist[i].second == destination)
+		    elist[i].second == destination) {
 		 	return std::make_pair(i, true);
+			break; }
 	    return std::make_pair(elist.size(), false);}
 	
         // -----
@@ -204,9 +204,9 @@ class Graph {
 	    vertices_size_type count_edges = 0;
 	    for(unsigned int i = 0; i < vlist.size(); ++i){
 		count_edges += vlist[i].size();
-		for(unsigned int j = 0; j < vlist[i].size(); ++j)
+		for(unsigned int j = 0; j < vlist[i].size(); ++i)
 		    assert(vlist[i][j] < vlist.size());}
-	    assert(count_edges == elist.size());
+	    //assert(count_edges == elist.size());
             for(unsigned int i = 0; i < elist.size(); ++i) {
 		assert(elist[i].first < vlist.size());
 		adjacency_iterator beg = vlist[elist[i].first].begin();
