@@ -384,6 +384,7 @@ struct TestGraph : CppUnit::TestFixture {
     CPPUNIT_TEST(test_vertices_1);
     CPPUNIT_TEST(test_vertices_2);
     CPPUNIT_TEST(test_vertices_3);
+    CPPUNIT_TEST(test_topological_sort);
     CPPUNIT_TEST_SUITE_END();};
 
 

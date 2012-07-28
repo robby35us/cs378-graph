@@ -15,8 +15,10 @@
 #include <cstddef> // size_t
 #include <utility> // make_pair, pair
 #include <vector>  // vector
+#include <deque>   // deque
 #include <algorithm> // find
 #include <iostream>   // cout and endl
+#include "boost/graph/exception.hpp" // not_a_dag
 
 // -----
 // Graph
@@ -252,6 +254,59 @@ class Graph {
  */
 template <typename G>
 bool has_cycle (const G& g) {
-    return true;}
+    return false;}
+
+// ----------------
+// topological_sort
+// ----------------
+
+/**
+ * depth-first traversal
+ * two colors
+ * <your documentation>
+ * @throws Boost's not_a_dag exception if has_cycle()
+ */
+template <typename G, typename OI>
+void topological_sort (const G& g, OI x) {
+    if(has_cycle(g))
+	throw boost::not_a_dag();
+    typename G::vertices_size_type num_v = num_vertices(g);
+    if(num_v == 0)
+	return;
+
+
+    std::vector<int> target_list(num_v);
+    std::deque<typename G::vertex_descriptor> v_zero;
+    std::pair<typename G::edge_iterator, typename G::edge_iterator> p = edges(g);
+    typename G::edge_iterator eb = p.first; 
+    typename G::edge_iterator ee = p.second;
+
+    //initialize target_list
+    while(eb != ee) {
+	++target_list[target(*eb, g)];
+	++eb; }
+    
+    //algorithm
+    do{	
+	// add zeroed vertices
+    	for(unsigned int i = 0; i < target_list.size(); ++i) 
+	    if(target_list[i] == 0) {
+		--target_list[i];
+		v_zero.push_back(i);} 
+	
+	// output next empty
+	typename G::vertex_descriptor vd = v_zero.front();
+	v_zero.pop_front();
+	std::pair<typename G::adjacency_iterator, 
+		  typename G::adjacency_iterator> ai = adjacent_vertices(vd, g);
+	typename G::adjacency_iterator ab = ai.first;
+	typename G::adjacency_iterator ae = ai.second;
+	while(ab != ae) {
+	    --target_list[*ab];
+	    ++ab;}
+    }while(!v_zero.empty());	
+	
+
+}
 
 # endif //Graph_h
