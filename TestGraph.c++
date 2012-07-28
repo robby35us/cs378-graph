@@ -210,16 +210,12 @@ struct TestGraph : CppUnit::TestFixture {
         edge_iterator                           b = p.first;
         edge_iterator                           e = p.second;
         CPPUNIT_ASSERT(b != e);
-        if (b != e) {
-            edge_descriptor ed = *b;
-            CPPUNIT_ASSERT(ed == edAB);}
+        CPPUNIT_ASSERT(*b == edAB);
         ++b;
-        if (b != e) {
-            edge_descriptor ed = *b;
-            CPPUNIT_ASSERT(ed == edAC);}}
+        CPPUNIT_ASSERT(*b == edAC);}
             
     void test_edges_2 () {
-				graph_type empty_g;
+	graph_type empty_g;
         std::pair<edge_iterator, edge_iterator> p = edges(empty_g);
         edge_iterator                           b = p.first;
         edge_iterator                           e = p.second;
@@ -235,33 +231,33 @@ struct TestGraph : CppUnit::TestFixture {
     // test_num_edges
     // --------------
 
-		void test_num_edges_1 () {
+    void test_num_edges_1 () {
         edges_size_type es = num_edges(g);
         CPPUNIT_ASSERT(es == 11);}
         
     void test_num_edges_2 () {
         add_edge(vdA, vdD, g);
-				CPPUNIT_ASSERT(num_edges(g) == 12);}
+	CPPUNIT_ASSERT(num_edges(g) == 12);}
 
     void test_num_edges_3 () {
         graph_type empty;
-				CPPUNIT_ASSERT(num_edges(empty) == 0);}
+	CPPUNIT_ASSERT(num_edges(empty) == 0);}
 
     // -----------------
     // test_num_vertices
     // -----------------
 
-		void test_num_vertices_1 () {
+    void test_num_vertices_1 () {
         vertices_size_type vs = num_vertices(g);
         CPPUNIT_ASSERT(vs == 8);}
         
     void test_num_vertices_2 () {
         add_vertex(g);
-				CPPUNIT_ASSERT(num_vertices(g) == 9);}
+	CPPUNIT_ASSERT(num_vertices(g) == 9);}
 
     void test_num_vertices_3 () {
         graph_type empty;
-				CPPUNIT_ASSERT(num_vertices(empty) == 0);}
+	CPPUNIT_ASSERT(num_vertices(empty) == 0);}
 
     // -----------
     // test_source
@@ -320,13 +316,9 @@ struct TestGraph : CppUnit::TestFixture {
         vertex_iterator                             b = p.first;
         vertex_iterator                             e = p.second;
         CPPUNIT_ASSERT(b != e);
-        if (b != e) {
-            vertex_descriptor vd = *b;
-            CPPUNIT_ASSERT(vd == vdA);}
+        CPPUNIT_ASSERT(*b == vdA);
         ++b;
-        if (b != e) {
-            vertex_descriptor vd = *b;
-            CPPUNIT_ASSERT(vd == vdB);}}
+        CPPUNIT_ASSERT(*b == vdB);}
 
     void test_vertices_2 () {
 	graph_type empty;

@@ -28,8 +28,8 @@ class Graph {
         // typedefs
         // --------
 
-        typedef unsigned int vertex_descriptor;
-        typedef unsigned int edge_descriptor;
+        typedef int vertex_descriptor;
+        typedef int edge_descriptor;
 
         typedef std::vector<int>::const_iterator vertex_iterator;
         typedef std::vector<int>::const_iterator edge_iterator;
@@ -197,11 +197,11 @@ class Graph {
 		count_edges += vlist[i].size();
 		for(unsigned int j = 0; j < vlist[i].size(); ++j) {
 		    assert(vlist[i][j] >= 0);		
-		    assert(vlist[i][j] < vlist.size());}}
+		    assert((std::size_t)vlist[i][j] < vlist.size());}}
 	    assert(count_edges == elist.size());
             for(unsigned int i = 0; i < elist.size(); ++i) {
-		assert(elist[i].first < vlist.size());
-		assert(elist[i].second < vlist.size());
+		assert((std::size_t)elist[i].first < vlist.size());
+		assert((std::size_t)elist[i].second < vlist.size());
 		adjacency_iterator beg = vlist[elist[i].first].begin();
 		adjacency_iterator end = vlist[elist[i].first].end();
 		assert(find(beg, end, elist[i].second) != end);}
