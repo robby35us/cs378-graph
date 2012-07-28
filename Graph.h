@@ -246,6 +246,24 @@ class Graph {
 // ---------
 // has_cycle
 // ---------
+template<typename AIP, typename C, typename G>
+bool has_cycle (const AIP& aip, C& v_seen, const G& g) {
+    typename G::adjacency_iterator vb = aip.first;
+    typename G::adjacency_iterator ve = aip.first;
+    while(vb != ve) {
+	typename C::iterator sb = v_seen.begin();
+	typename C::iterator se = v_seen.end();
+	if(std::find(sb, se, *vb) != se)
+	    return true;
+	v_seen.push_back(*vb);
+	if(has_cycle(adjacent_vertices(*vb, g), v_seen, g))
+	    return true;
+	v_seen.pop_back();
+	++vb; }
+    
+    return false;
+}
+
 
 /**
  * depth-first traversal
@@ -254,7 +272,19 @@ class Graph {
  */
 template <typename G>
 bool has_cycle (const G& g) {
-    return false;}
+    std::pair<typename G::vertex_iterator, typename G::vertex_iterator> vi = 
+	vertices(g);
+    typename G::vertex_iterator vb = vi.first;
+    typename G::vertex_iterator ve = vi.second;
+    
+    std::vector<typename G::vertex_descriptor> v_seen;
+    while(vb != ve) {
+	v_seen.push_back(*vb);
+	if(has_cycle(adjacent_vertices(*vb, g), v_seen, g))
+	    return false;
+	v_seen.pop_back();
+	++vb;}
+    return true;}
 
 // ----------------
 // topological_sort
