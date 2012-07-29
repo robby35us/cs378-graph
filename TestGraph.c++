@@ -337,17 +337,115 @@ struct TestGraph : CppUnit::TestFixture {
     // test_has_cycle
     // --------------
 
-    void test_has_cycle () {
+    void test_has_cycle_1 () {
         CPPUNIT_ASSERT(has_cycle(g));}
+
+    void test_has_cycle_2 () {
+	graph_type empty;
+        CPPUNIT_ASSERT(!has_cycle(empty));}
+
+    void test_has_cycle_3 () {
+	graph_type test;
+	vertex_descriptor vdA = add_vertex(test); //1
+	vertex_descriptor vdB = add_vertex(test); //2
+	vertex_descriptor vdC = add_vertex(test); //3
+	vertex_descriptor vdD = add_vertex(test); //4
+	vertex_descriptor vdE = add_vertex(test); //5
+	vertex_descriptor vdF = add_vertex(test); //6
+	vertex_descriptor vdG = add_vertex(test); //7
+	vertex_descriptor vdH = add_vertex(test); //8
+	vertex_descriptor vdI = add_vertex(test); //9
+	vertex_descriptor vdJ = add_vertex(test); //10
+
+	add_edge(vdA, vdJ, test);
+	add_edge(vdB, vdI, test);
+	add_edge(vdB, vdG, test);
+	add_edge(vdC, vdJ, test);
+	add_edge(vdD, vdC, test);
+	add_edge(vdD, vdA, test);
+	add_edge(vdD, vdH, test);
+	add_edge(vdE, vdC, test);
+	add_edge(vdE, vdF, test);
+	add_edge(vdF, vdA, test);
+	add_edge(vdG, vdF, test);
+	add_edge(vdH, vdE, test);
+	add_edge(vdH, vdA, test);
+	add_edge(vdI, vdA, test);
+	add_edge(vdI, vdD, test);
+	add_edge(vdI, vdG, test);
+	add_edge(vdI, vdC, test);
+	add_edge(vdI, vdF, test);
+	add_edge(vdJ, vdG, test);
+        CPPUNIT_ASSERT(has_cycle(g));}
+
 
     // ---------------------
     // test_topological_sort
     // ---------------------
 
-    void test_topological_sort () {
-        std::ostringstream out;
-        topological_sort(g, std::ostream_iterator<vertex_descriptor>(out, " "));
-        CPPUNIT_ASSERT(out.str() == "2 0 1 ");}
+    void test_topological_sort_1 () {
+	graph_type test;
+	vertex_descriptor vdA = add_vertex(test); //1
+	vertex_descriptor vdB = add_vertex(test); //2
+	vertex_descriptor vdC = add_vertex(test); //3
+	vertex_descriptor vdD = add_vertex(test); //4
+	vertex_descriptor vdE = add_vertex(test); //5
+	vertex_descriptor vdF = add_vertex(test); //6
+	vertex_descriptor vdG = add_vertex(test); //7
+	vertex_descriptor vdH = add_vertex(test); //8
+	vertex_descriptor vdI = add_vertex(test); //9
+	vertex_descriptor vdJ = add_vertex(test); //10
+
+	add_edge(vdB, vdI, test);
+	add_edge(vdB, vdG, test);
+	add_edge(vdC, vdJ, test);
+	add_edge(vdD, vdC, test);
+	add_edge(vdD, vdA, test);
+	add_edge(vdD, vdH, test);
+	add_edge(vdE, vdC, test);
+	add_edge(vdE, vdF, test);
+	add_edge(vdF, vdA, test);
+	add_edge(vdG, vdF, test);
+	add_edge(vdH, vdE, test);
+	add_edge(vdH, vdA, test);
+	add_edge(vdI, vdA, test);
+	add_edge(vdI, vdD, test);
+	add_edge(vdI, vdG, test);
+	add_edge(vdI, vdC, test);
+	add_edge(vdI, vdF, test);
+	add_edge(vdJ, vdG, test);
+        
+	std::ostringstream out;
+        topological_sort(test, std::ostream_iterator<vertex_descriptor>(out, " "));
+        CPPUNIT_ASSERT(out.str() == "0 5 6 9 2 4 7 3 8 1 ");}
+
+    void test_topological_sort_2 () {
+	graph_type test;
+	add_vertex(test); //1
+	vertex_descriptor vdB = add_vertex(test); //2
+	vertex_descriptor vdC = add_vertex(test); //3
+	vertex_descriptor vdD = add_vertex(test); //4
+	vertex_descriptor vdE = add_vertex(test); //5
+
+	add_edge(vdA, vdD, test);
+	add_edge(vdA, vdC, test);
+	add_edge(vdC, vdE, test);
+	add_edge(vdC, vdB, test);
+	add_edge(vdE, vdD, test);
+	add_edge(vdE, vdB, test);
+        
+	std::ostringstream out;
+        topological_sort(test, std::ostream_iterator<vertex_descriptor>(out, " "));
+        CPPUNIT_ASSERT(out.str() == "1 3 4 2 0 ");}
+
+    void test_topological_sort_3 () {
+	try {
+	    std::ostringstream out;
+	    topological_sort(g, std::ostream_iterator<vertex_descriptor>(out, " "));
+	    CPPUNIT_ASSERT(false);}
+	catch(boost::not_a_dag e) {
+	    CPPUNIT_ASSERT(true);}}
+
 
     // -----
     // suite
@@ -384,7 +482,12 @@ struct TestGraph : CppUnit::TestFixture {
     CPPUNIT_TEST(test_vertices_1);
     CPPUNIT_TEST(test_vertices_2);
     CPPUNIT_TEST(test_vertices_3);
-    CPPUNIT_TEST(test_topological_sort);
+    CPPUNIT_TEST(test_has_cycle_1);
+    CPPUNIT_TEST(test_has_cycle_2);
+    CPPUNIT_TEST(test_has_cycle_3);
+    CPPUNIT_TEST(test_topological_sort_1);
+    CPPUNIT_TEST(test_topological_sort_2);
+    CPPUNIT_TEST(test_topological_sort_3);
     CPPUNIT_TEST_SUITE_END();};
 
 

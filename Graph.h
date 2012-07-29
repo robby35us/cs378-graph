@@ -249,7 +249,7 @@ class Graph {
 template<typename AIP, typename C, typename G>
 bool has_cycle (const AIP& aip, C& v_seen, const G& g) {
     typename G::adjacency_iterator vb = aip.first;
-    typename G::adjacency_iterator ve = aip.first;
+    typename G::adjacency_iterator ve = aip.second;
     while(vb != ve) {
 	typename C::iterator sb = v_seen.begin();
 	typename C::iterator se = v_seen.end();
@@ -281,10 +281,10 @@ bool has_cycle (const G& g) {
     while(vb != ve) {
 	v_seen.push_back(*vb);
 	if(has_cycle(adjacent_vertices(*vb, g), v_seen, g))
-	    return false;
+	    return true;
 	v_seen.pop_back();
 	++vb;}
-    return true;}
+    return false;}
 
 // ----------------
 // topological_sort
@@ -300,43 +300,52 @@ template <typename G, typename OI>
 void topological_sort (const G& g, OI x) {
     if(has_cycle(g))
 	throw boost::not_a_dag();
+
     typename G::vertices_size_type num_v = num_vertices(g);
     if(num_v == 0)
 	return;
 
-
+    // initialize target_list
     std::vector<int> target_list(num_v);
     std::deque<typename G::vertex_descriptor> v_zero;
     std::pair<typename G::edge_iterator, typename G::edge_iterator> p = edges(g);
     typename G::edge_iterator eb = p.first; 
     typename G::edge_iterator ee = p.second;
-
-    //initialize target_list
     while(eb != ee) {
 	++target_list[target(*eb, g)];
 	++eb; }
     
-    //algorithm
-    do{	
-	// add zeroed vertices
-    	for(unsigned int i = 0; i < target_list.size(); ++i) 
-	    if(target_list[i] == 0) {
-		--target_list[i];
-		v_zero.push_back(i);} 
+   //algorithm		
+    std::vector<typename G::vertex_descriptor> temp_out;
+    // add zeroed vertices
+    for(unsigned int i = 0; i < target_list.size(); ++i) 
+	if(target_list[i] == 0) {
+	    --target_list[i];
+ 	    v_zero.push_back(i);} 
 	
+    while(!v_zero.empty()) {
 	// output next empty
 	typename G::vertex_descriptor vd = v_zero.front();
+	temp_out.push_back(vd);
 	v_zero.pop_front();
+
+	// "cut" edges
 	std::pair<typename G::adjacency_iterator, 
 		  typename G::adjacency_iterator> ai = adjacent_vertices(vd, g);
 	typename G::adjacency_iterator ab = ai.first;
 	typename G::adjacency_iterator ae = ai.second;
 	while(ab != ae) {
 	    --target_list[*ab];
-	    ++ab;}
-    }while(!v_zero.empty());	
+	    // add zeroed edges to v_zero
+	    if(target_list[*ab] == 0) {
+		--target_list[*ab];
+		v_zero.push_back(*ab);}
+	    ++ab;}}
 	
-
+	while(!temp_out.empty()) {
+	    *x = temp_out.back();
+	    temp_out.pop_back();
+	    ++x; }
 }
 
 # endif //Graph_h
