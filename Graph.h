@@ -46,7 +46,12 @@ class Graph {
         // --------
 
         /**
-         * <your documentation>
+	 * Add a directed edge to the graph if the edge isn't already contained
+	 * @param source the out vertex_descriptor 
+	 * @param destination the in vertex_descriptor
+	 * @param g a Graph
+	 * @return a pair: the first value being the edge_descriptor, 
+	 *                 the second a bool, true if edge added
          */
         friend std::pair<edge_descriptor, bool> add_edge (vertex_descriptor source, vertex_descriptor destination, Graph& g) {
 	    std::pair<edge_descriptor, bool> result 
@@ -66,7 +71,9 @@ class Graph {
         // ----------
 
         /**
-         * <your documentation>
+         * add a vertex to the graph g
+	 * @param g a Graph
+	 * @return the vertex_descriptor for the new vertex
          */
         friend vertex_descriptor add_vertex (Graph& g) {
             g.vlist.push_back(std::vector<vertex_descriptor>());
@@ -79,7 +86,11 @@ class Graph {
         // -----------------
 
         /**
-         * <your documentation>
+	 * get an iterator over the vertices adjacent to a vertex
+	 * @param v the out vertex_descriptor 
+	 * @param g a Graph
+	 * @return a pair: the first value a begining iterator, 
+	 *      the second value an end iterator, both over the out vertex_descriptors
          */
         friend std::pair<adjacency_iterator, adjacency_iterator> adjacent_vertices (vertex_descriptor v, const Graph& g) {
 	    adjacency_iterator b = g.vlist[v].begin();
@@ -91,7 +102,13 @@ class Graph {
         // ----
 
         /**
-         * <your documentation>
+	 * get the edge_descriptor, if it exists,  for a out,in pair of 
+	 *	vertex_descriptors
+	 * @param source the out vertex_descriptor
+	 * @param destination the in vertex)descriptor
+	 * @param g a graph
+	 * @return a pair: the first value being the edge_descriptor, 
+	 *                 the second a bool, true of the edge exists
          */
         friend std::pair<edge_descriptor, bool> edge (vertex_descriptor source, vertex_descriptor destination, const Graph& g) {
             return g.find_edge(source, destination);}
@@ -101,7 +118,10 @@ class Graph {
         // -----
 
         /**
-         * <your documentation>
+	 * get an iterator over the edges in the graph
+	 * @param g a Graph
+	 * @return a pair: the first value a begining iterator, 
+	 *      the second value an end iterator, both over the edge_descriptors
          */
         friend std::pair<edge_iterator, edge_iterator> edges (const Graph& g) {
             return std::make_pair(g.eindices.begin(), g.eindices.end());}
@@ -111,7 +131,9 @@ class Graph {
         // ---------
 
         /**
-         * <your documentation>
+	 * returns the number of edges in the graph g
+	 * @param g a graph
+	 * @return the number of edges in the graph
          */
         friend edges_size_type num_edges (const Graph& g) {
             return g.elist.size();}
@@ -121,7 +143,9 @@ class Graph {
         // ------------
 
         /**
-         * <your documentation>
+	 * returns the number of vertices in the graph g
+	 * @param g a graph
+	 * @return the number of vertices in the graph
          */
         friend vertices_size_type num_vertices (const Graph& g) {
             return g.vlist.size();}
@@ -131,7 +155,10 @@ class Graph {
         // ------
 
         /**
-         * <your documentation>
+	 * returns the out vertex for a given edge
+	 * @param ed the edge_descriptor for an edge in the graph
+	 * @param g a graph
+	 * @return a vertex_descriptor
          */
         friend vertex_descriptor source (edge_descriptor ed, const Graph& g) {
             return g.elist[ed].first;}
@@ -141,7 +168,10 @@ class Graph {
         // ------
 
         /**
-         * <your documentation>
+	 * returns the in vertex for a given edge
+	 * @param ed the edge_descriptor for an edge in the graph
+	 * @param g a graph
+	 * @return a vertex_descriptor
          */
         friend vertex_descriptor target (edge_descriptor ed, const Graph& g) {
             return g.elist[ed].second;}
@@ -151,7 +181,9 @@ class Graph {
         // ------
 
         /**
-         * <your documentation>
+	 * get the vertex_descriptor for the nth vertex added to the graph
+	 * @param n a element of vertices_size_type
+	 * @return the vertex_descriptor
          */
         friend vertex_descriptor vertex (vertices_size_type n, const Graph&) {
             return n;}
@@ -161,7 +193,10 @@ class Graph {
         // --------
 
         /**
-         * <your documentation>
+	 * get an iterator over the vertices in the graph
+	 * @param g a Graph
+	 * @return a pair: the first value a begining iterator, 
+	 *      the second value an end iterator, both over the vertex_descriptors
          */
         friend std::pair<vertex_iterator, vertex_iterator> vertices (const Graph& g) {
             return std::make_pair(g.vindices.begin(), g.vindices.end());}
@@ -171,12 +206,22 @@ class Graph {
         // data
         // ----
 
+	//containers for the vertices and edges
         std::vector< std::vector<vertex_descriptor> > vlist;
 	std::vector< std::pair<vertex_descriptor, vertex_descriptor> > elist;
 
+	//iterators for the vertices and edges
 	std::vector<int> vindices;
 	std::vector<int> eindices;
 
+	// ---------
+	// find_edge
+	// ---------
+
+	/**
+	 * helper method for the special problem of finding an edge,
+	 *     if it exists, from two vertex_descriptors
+	 */
 	std::pair<edge_descriptor, bool> find_edge(vertex_descriptor source, 
 		vertex_descriptor destination) const {
 	    for(unsigned int i = 0; i < elist.size(); ++i)
@@ -191,7 +236,9 @@ class Graph {
 
 
         /**
-         * <your documentation>
+         * Gurantees validity of the grapy values
+	 * assert should be placed in each function that modifies the graph
+	 * these asserts should be turned when not in development
          */
         bool valid () const {
 	    vertices_size_type count_edges = 0;
@@ -207,23 +254,6 @@ class Graph {
 		adjacency_iterator beg = vlist[elist[i].first].begin();
 		adjacency_iterator end = vlist[elist[i].first].end();
 		assert(find(beg, end, elist[i].second) != end);}
-/*
-	    std::cout << "valid method" << std::endl;
-	    std::cout << "g contains....";
-	    std::cout << " " << vlist.size() << " vertices and ";
-	    std::cout << elist.size() << " edges." << std::endl;
-
-	    int edge_num = 0;
-	    for(unsigned int i = 0; i < vlist.size(); ++i) {
-		std::cout << "Vertex " << i << " has the following edges...." << std::endl;
-		for(unsigned int j = 0; j < vlist[i].size(); ++j) {
-		    std::cout << "edge " << edge_num << " leads to vertex ";
-		    std::cout << vlist[i][j] << std::endl;
-		    std::cout << "(actual edge from " << elist[edge_num].first;
-		    std::cout << " to " << elist[edge_num++].second << ")" << std::endl << std::endl; }}
-
-*/
-
             return true;}
 
     public:
@@ -232,7 +262,7 @@ class Graph {
         // ------------
 
         /**
-         * <your documentation>
+         * default destuctor - produces empty graph with no vertices or edges
          */
         Graph () {
             assert(valid());}
@@ -246,6 +276,14 @@ class Graph {
 // ---------
 // has_cycle
 // ---------
+
+/**
+ * Helper recursive method for has_cycle
+ * @param aip a pair of adjacency iterators,
+ * @param v_seen a container of vertex_descriptor, used for marking vertices
+ * @param g a graph
+ * @return true if a cycle is found in this portion of the graph
+ */
 template<typename AIP, typename C, typename G>
 bool has_cycle (const AIP& aip, C& v_seen, const G& g) {
     typename G::adjacency_iterator vb = aip.first;
@@ -268,7 +306,9 @@ bool has_cycle (const AIP& aip, C& v_seen, const G& g) {
 /**
  * depth-first traversal
  * three colors
- * <your documentation>
+ * checks a directed graph for the presence of cycles
+ * @param g is a graph
+ * @return true if the graph is cyclic, false otherwise
  */
 template <typename G>
 bool has_cycle (const G& g) {
@@ -293,7 +333,8 @@ bool has_cycle (const G& g) {
 /**
  * depth-first traversal
  * two colors
- * <your documentation>
+ * @param g a graph
+ * @param x an output iterator
  * @throws Boost's not_a_dag exception if has_cycle()
  */
 template <typename G, typename OI>
@@ -301,6 +342,7 @@ void topological_sort (const G& g, OI x) {
     if(has_cycle(g))
 	throw boost::not_a_dag();
 
+    // quit if graph is empty
     typename G::vertices_size_type num_v = num_vertices(g);
     if(num_v == 0)
 	return;
@@ -342,6 +384,7 @@ void topological_sort (const G& g, OI x) {
 		v_zero.push_back(*ab);}
 	    ++ab;}}
 	
+	// move values from temp to output iterator	
 	while(!temp_out.empty()) {
 	    *x = temp_out.back();
 	    temp_out.pop_back();
