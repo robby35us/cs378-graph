@@ -1,0 +1,83 @@
+commit c703ad3125a7246980d6c18939b183db057f643d
+Author: Robert Reed <callmeelasinthe@gmail.com>
+Date:   Sun Jul 29 01:26:14 2012 -0500
+
+    Documentation complete
+
+commit c10a48bf7a6b93b995871e058630bc3ec27e1cf7
+Author: Robert Reed <callmeelasinthe@gmail.com>
+Date:   Sat Jul 28 19:13:52 2012 -0500
+
+    Clean valgrind report in TestGraph.out
+
+commit 5bd2080e2cdd27c286ef11905eec4bf4cadd331f
+Author: Robert Reed <callmeelasinthe@gmail.com>
+Date:   Sat Jul 28 19:12:26 2012 -0500
+
+    Finished code. Needs final touches
+
+commit ec811d2e1b82a5eae1ffd0e3e0e046a5396b3b0a
+Author: Robert Reed <callmeelasinthe@gmail.com>
+Date:   Sat Jul 28 15:32:52 2012 -0500
+
+    Wrote has_cycle(). Need tests.
+
+commit d74b7af362f05279c8e0173fbed3cfc24828e0dd
+Author: Robert Reed <callmeelasinthe@gmail.com>
+Date:   Sat Jul 28 09:17:24 2012 -0500
+
+    wrote topological sort algorithm. Must add tests
+
+commit 5be33031a0b5e3954225b4d893edabc644044afb
+Author: Robert Reed <callmeelasinthe@gmail.com>
+Date:   Sat Jul 28 06:52:33 2012 -0500
+
+    Cleaned up TestGraph.c++
+
+commit 46573f84fc372684fa2441981bad0d0c12a6029e
+Author: Robert Reed <callmeelasinthe@gmail.com>
+Date:   Sat Jul 28 06:36:32 2012 -0500
+
+    All tests written and passed for friend functions
+
+commit f9622792c3582cdda8273b57c489541a70fb7f04
+Author: Robert Reed <callmeelasinthe@gmail.com>
+Date:   Fri Jul 27 22:37:36 2012 -0500
+
+    Finished writing tests for all friend functions.
+
+commit 6c09158fac17c06605f907f8515d43b9731cb7cc
+Author: Robert Reed <callmeelasinthe@gmail.com>
+Date:   Fri Jul 27 12:23:48 2012 -0500
+
+    Wrote tests for add_edge.
+
+commit 7378b6db01fdcb9210938b583dba5fe1631d2572
+Author: Robert Reed <callmeelasinthe@gmail.com>
+Date:   Fri Jul 27 00:31:49 2012 -0500
+
+    All tests past except for 1.
+
+commit b475318e7575bf2ed7a7d24470c31d7616707698
+Author: Robert Reed <callmeelasinthe@gmail.com>
+Date:   Thu Jul 26 22:18:38 2012 -0500
+
+    TestGraph.c++ was accidently saved with an incorrect suffix
+
+commit 31c6a1c4221ae5345dcd36b0f2580ce5f9d5ebca
+Author: Robert Reed <callmeelasinthe@gmail.com>
+Date:   Thu Jul 26 22:15:48 2012 -0500
+
+    Wrote initial version of all graph methods and functions, not including algorithms. Needs more testing.
+
+commit 73e3989bd6e2e0793f6d98a07301b9016fdf9fd8
+Author: robert Reed <callmeelasinthe@gmail.com>
+Date:   Thu Jul 26 19:48:55 2012 -0500
+
+    Download files from class webpage
+
+commit 23f57c93bc982bfa2c95c97889c593c2931916ca
+Author: robby35us <callmeelasinthe@gmail.com>
+Date:   Thu Jul 26 17:11:18 2012 -0700
+
+    Initial commit
